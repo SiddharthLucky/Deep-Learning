@@ -1,0 +1,66 @@
+Recurrent nueral networks.
+
+- These used to have a probelm before which is the vanishing gradient problem.
+called the Long Short term memory LSTM machines
+
+- Practical Intuition, use it to see how LSTM's think and see.
+
+- These are one of the most advanced algorithms that exist, part of supervised learning.
+
+Classification of Algorithms
+
+- ANN, The main part of thier significance is thier weights, learn from experience.
+these are present as part of a long term memory, similar to the temporal lobe.
+
+- CNN has to do with vision and pictures, symbolical to the occipital lobe.
+
+What does an RNN do.
+
+- Consider an ANN, but the layers are squashed, flattened out to make the whole ANN as a layer.
+Here the neurons are connected to all at time. so have a short term memory, that they remeber what was in thier newron previously.
+- This helps pass information to them in the future.
+
+What can an RNN do.
+
+One to many - could contain one input and then the network comes up with multiple outputs
+- If an image is fed into an RNN, and the features and all are mapped and recognised by CNN. and RNN helps make sense out of the features.
+ex: Black and white dog jumps over the bar.
+
+Many to one
+- Can be used to sentiiment analysis. Where in a text can be analyzed to say weather if it is a positive one or a negetive one.
+
+Many to Many
+- Example of google translate, we need short term information about the previous word to translate the next word.
+
+Short term memory is used where in conetext is involved. 
+
+The vanishing gradient problem - Discovered by Sepp Hochiecer, Yosho benjo.
+
+Basing on the architecture of the RNN, when back propogation occours the weights are to be updated over the network among all the nuerons.
+But if it is small, at a point the decent vanishes. it is like a domino effect to all the nueronrs in the back.
+Since the weights are not being trained properly.
+
+W_subscript_rec if small then it refers to a vanishing problem but vice versa is a exploding gradient.
+
+Solutions for exploding gradient:
+1. Truncated backpropogation
+2. Penalties
+3. gradient Clipping
+
+Solution for vanishing gradient probelms.
+1.Weight initialization
+2. Echo state networks
+3. Long Short term memory networks. - popular, considered the go to network form RNN's.
+
+LSTM - Long short term Memory
+
+Architecture of LSTM (Most sought out RNN)
+
+- LSTM takes 3 inputs and 2 outputs. each input could be a input vector, collections of many layers of nuerons
+
+- it has components like forget valves, memory valve and output valve.
+
+- It contains multiple layer vectors of sigmoids or activation functions.
+
+Practical Applications of LSTM
+

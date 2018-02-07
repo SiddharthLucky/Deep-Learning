@@ -1,0 +1,82 @@
+What to learn about - it is called so because it uses the boltzmann sample distribution, talks about probability.
+
+1. Boltzman machines
+2. Energy Based Models (EBM)
+3. Restricted Boltzmann machines (RBM) - suggested to solve computation issues.
+4. COntrastive Divergence - helps find weights for BM's
+5. Deep Boltzmann machines - In depth topic - refer 3rd party tutorials.
+
+Boltzmann machines and auto encoders are used for recommendation systems:
+
+In case of SOMS, RNN, CNN, ANN all of em are directed models.
+Whereas boltzmann machines doesnt have directions, they go both ways.
+
+- Unlike other models, it doesnt have an output layer. Everynode is hyper connected to each other.
+
+- In Boltzmann machines, each node is connected to each other, including all the input nodes and 
+the hidden layer nodes. Unlike other networks where in the input data is fixed as it is given.
+In boltzmann machines the data is computed in all the nodes, These nodes dont expect input data but they
+generate data amongst all nodes regardless if its an input node or a hidden node.
+
+Simply put the input nodes are values we can measure, hidden are vice versa.
+The way this model works is that instead of waiting for us to input values, the machine is capable of generating values on its own.
+
+It is not a deterministic deep learning model but it is a stockastic deep learning or a generative model
+as it generates those states.
+
+The machien is highly adaptable, it understands how parameters interact with each other basing on input.
+
+Lets take an exmaple of a neuclear meltdown, while using supervised learning we need to have
+examples of how a meltdown looks like, but whereas boltzmann machines models itself using the good examples.
+Learning through how the system works in acceptable states, it helps us model the system in abnormal states.
+
+We are not outputting anything because we are actually modelling a system.
+
+While we see coloes for input and hidden, boltzmann machines does not descriminate amongst nodes.
+
+Energy based Models (EBM):
+This model uses the enrgy coefeciant to calculate the distribution.
+
+restricted boltzmann machines(rbm):
+Here we are going to see how it learns and applied in real time.
+Since it it tough to connect each node with every other node, restrictions were introduced where in 
+All the input nodes are not connected to each other and each node in the hidden layer are not connected to each other
+and the rest of the nodes are connected to each other than apart from the ones in the restrictions.
+
+- It is not that complex - lets say the machine gets trained on what movies the user might like. it gets trained on all the users
+Now when a new user is input who hasnt watched movies it will check the probablilty of the nodes that light up and if it is high, then it is 
+probably the movie that the user might want to see.
+
+WHAT IS CONTRASTIVE DIVERGENCE ?
+
+- Since the network is undirected we use contrastive divergence. Eventhough the values that are passed along the nodes is the same,
+The input nodes dont equal to each other as one node recieves input from multiple values changing them.
+
+In terms of the curve, it shows how changing of weights changes the probability. let us assume,
+if there is an object on the curve then all the objects try to get to thier lowest energy state.
+
+The RBM always tries to get to the values which represent the lowest energy state, boltzmann are known to get better features compared to rest                                                                                                                                                                                                                                                                                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

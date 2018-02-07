@@ -1,0 +1,46 @@
+Convolution neural network
+
+Step 1 - Convolution function
+
+	The primary purpose of convolution is to find features in the image using a feature detector and create a feature map,
+where having them in the feature map stil preserves the spatial relationships in tha pixels.
+
+reLu Layer part of step 1:
+
+	Similar to the one applied on the ANN i.e the rectifier function on the convolution layer.
+The reason we are using reLu rectification is because we want to increase non linearity in our network.
+
+Step 2 - Max Pooling
+
+	Network should be trained using spatial variance.
+	Spatial variance - it doesnt care where the features are in the image. so that it imporves the observation accuracy.
+	
+	Helps reduce the unnecessary information - almost by 75% only retaining the max of the pixel values to retain important information.
+	The main importance would be reducing the no of parameters, therefore preventing overfitting aka (overlearning).
+	
+Step 3 - Falttening
+
+	The reduced values that are obtained are then plotted as a single colum array, the many pooling layers are flattened,
+	and are formed as a vector for input of a neural network.
+	
+Step 4 - Full connection
+
+	The flattened object will be fed as an input for the neural network. the same steps for the optimization of ANN is followed. Apart from these,
+	we should also upgrade the feature detectors.
+	cross entropy, look into it again, cross entropy works only good with
+	Just another way to calculate th elosses, used along witht the softmax function.
+	
+Softmax and Cross Entropy:
+	
+	Look into implementing a nueral network intermezzo, to see how to create an intermission in a neural net. Paper by Peter Roelants.
+	
+	After Softmax function is applied cross entropy loss function is applied. minimize loss value to get maximum profit.
+	for cross entropy implementation:
+	
+	Consider a picture of a dog with predicted result probability 0.9 for dog and 0.1 for cat. and labels to tell the difference.
+	The predicted result values go into the value of Q and the labels value go into the value of P in the below formula.
+	Corss entropy implementation H(P, Q).
+	
+	Cross entropy is the prefereered method for classification problems, but if you are looking at problems like regression
+	we will be using mean squared error.
+	

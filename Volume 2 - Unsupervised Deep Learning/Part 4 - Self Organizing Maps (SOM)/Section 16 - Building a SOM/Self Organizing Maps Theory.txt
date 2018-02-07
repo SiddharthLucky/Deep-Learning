@@ -1,0 +1,88 @@
+Self organizing maps:
+
+- They are used mainly to reduce dimensionality, 
+
+- They may take a multi dimensional dataset with lots or rows and columns
+we reduce the dimensionality, we end up with a 2D map of your dataset,
+main aim is to reduce the dimensions, reduce the amount of columns ie. from many columns to a 2D map.
+
+What are we aiming for:
+
+- The algorithm is unsupervised, it realised that the values seem similar.
+These can also be applied to the world map to see the global poverty rate in countries.
+
+- The dataset unlabelelled can be sent into to be made a map to form clusters of data.
+
+- K maps can also be called as Kahonen maps.
+
+K - Means clustering:
+
+- It is used to cluster various categories of data which might not be visible to ya.
+
+How do we do mapping.
+
+1. Choose the number of K of clusters
+
+2. Select at random K points the centroids (not necessarily to the dataset)
+
+3. Assign each data point to the closest centroid that forms k clusters. called the starting clusters using the euclidean distances.
+
+4. Compute and place the new centroid of each cluster.
+
+5. Reassign each data point to the new closest centroid.
+	If any reassignmenet took place, go to step 4 or FINISH.
+	
+	The distances are used are mainly euclidian, but then you can also sue someotehr geometrical distances.
+	But there are other problems where you might have to use non euclidian distances
+	
+	
+	Observation: The centroids are moved untill the there is no reassignment occurs. or else the process is repeated.
+	
+	
+How do SOM's Learn
+
+- Lets say we have 3 input features and 9 output nodes. the input may be in 3D in multiple layers which will be turned into 2D outputs.
+
+Important: Eventhough SOM's may look like Neural nets, they are quite different from each other.
+
+- SOM's are much easier to grasp, straight forward concepts.
+- The knowledge from nueral nets mey lead you to confuse with some of the terminology in unsupervised learning.
+
+- The weights in this in not similar to that of the nueral nets.
+Here the weights have indexes, have a whole different notation to them. There is no activation function in this.
+the weights are a charecteristic itself example the input vector in the input space are connected to a node like Node 1 : (W1.1, W1.2, W1.3) and Node 2 consecutively and so on.
+These nodes are the core of SOM's, they comepete through each of the rows to see which node is closest to the rows in the dataset.
+
+- For each node the euclidian distance is calculated and the nearest node is derived.
+
+- For each onput rows, the distance is calulated among all the nodes and the BMU - Best Match Unit is calculated
+
+- - The closer the nodes are nearer to the BMU, the more priority is given to the nearest ones. This means that the data is being drawn to teh nearest BMU.
+
+- The readius eventually drops having less and less pull on the adjacent nodes. Therefore the samller the readius the more accurate the categorization becomes.
+
+Important things to know:
+
+- SOM's are known to retain the topology of the input data set, as they try to form a mask behind the data.
+- SOM's reveal corelations that are not easily identified.
+- SOM's classify data without supoervision - it does not need labels. it learns all of it on its own, esteacts features.
+- SOM's do not need a target vector, hence no backpropogation. Doesnt happen as there is no target to compare to. 
+- No lateral connections between output nodes.
+
+You use the K-Means ++ method to avoid the random initialization trap.
+
+Choosing the right number in clusters:
+
+- You can choose as many number of clusters as there are data points in the map.
+For this we use WCSS - within cluster sum of squares.
+
+If the no of centroids is equal to the no of points on the map, then WCSS will be 0. as the no of centroids increases, 
+the value of WCSS drops relative to the increase of clusters.
+
+For deciding the optimal number of clusters. use ELBOW METHOD
+
+When plotted a chart the WCSS drops as no of clusters increase, Look for an elbow shaped drop
+that would be the right number of clusters, cause after this the drop will not substancial,
+not much imporvement in clustering beyond this point.
+
+Elbow method is just an approach but it ultimately we are the deciding factor on no of optimal clusters.

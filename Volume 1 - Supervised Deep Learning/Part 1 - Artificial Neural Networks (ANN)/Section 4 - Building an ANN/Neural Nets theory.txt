@@ -1,0 +1,38 @@
+Steps in a Neural net:
+
+Step 1: Randomly initialize weights to small no close to 0.
+
+Step 2: Input the first observation of dataset, each feature in input node.
+
+Step 3: Forward propogation from left to right, nuerons are activated in a way that impact of activation is limited by weights.
+
+Step 4: Compare the predicted result to the actual result, measure the generated error.
+
+Step 5: back propogation is performed from right to left, update the weights accordingly basing on the error,
+		learning rate decides how much we update the weights.
+		
+Step 6: Repeat 1 to 5, update weights after each observation (reinforced learning) or update them as a batch (batch learning)
+
+
+- When trained multiple times, the accuracy varies. this results in the bias varians trade off
+
+- The trade off model is when we are trying to train the model which is accurate but also shouldnto have accuracy variance.
+
+- High variance is when the accuracy varies when tested again and again
+
+- Hence K fold cross validation is followed
+
+K fold 
+
+- Here training is split into 10 folds when k=10 and train model on 9 folds and test it on the last fold, this way
+we can train and test the model on 10 combinations of training and testing.
+
+- Depending on the variance the categeries are selected,
+the avarages of the variance is taken and standard deviation is calculated.
+
+1. High Bias and low variance - the points are placed towards the right top all clustered.
+2. high bias and high variance - the points are scattered around the orbits.
+3. Low bias and low variance - the accuracy points are mostly clustered and are concentrated along the center.
+4. Low bias and high variance - the accuracy values are all concentrated along the center but scattered due to high variance.
+
+k fold cross validation kernel is being implemented in the K_Fold_CrossValidation File 
