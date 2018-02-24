@@ -84,6 +84,126 @@ test_set = convert(test_set)
 # here instead of using anumpy array, the data is converted into a float tensor
 # Pytorch is fairly new so pytorch tensors might not show up. they exist but cant be displayed
 training_set = torch.FloatTensor(training_set)
-test_Set = torch.FloatTensor(test_set)
+test_set = torch.FloatTensor(test_set)
 
 # Convert ratings into binary ratings
+#here we will replace the zeros are not existant in the table, so they will be changed to -1, -1  is not a specific 
+# Observation: We replace all the zeros with -1, the zeros in the training set are the ones that are not rated by the users,
+# Since the ratings can only be 0 or 1, all the ratings with -1 correspond to the ratings that were not rated by the users.
+
+training_set[training_set == 0] = -1
+training_set[training_set == 1] = 0
+training_set[training_set == 2] = 0
+training_set[training_set >= 3] = 1
+
+test_set[test_set == 0] = -1
+test_set[test_set == 1] = 0
+test_set[test_set == 2] = 0
+test_set[test_set >= 3] = 1
+# With this all the reatings with ratings - will be changed into -1
+# All the values that are more than3 or above wil be made 1
+
+# Building the architecture of the RBM
+# REMEMBER: An RBM is a probabilistic grpaphical model
+# Functions  defined 1, to initialize the RBM object 2, Sample the hidden nodes given the visible nodes 3, It will sample the probablities of the hidden nodes given.
+# The name of the class 1st letter should be capitalized.
+class RBM():
+    # self corresponds to the object itself
+    def __init__(self, no_of_VisNodes, no_of_HidNodes):
+        # We initialize the paramenters of the future objects specific to the RBM class
+        # Since these are variables of the object, you will have to use self as they dont pertain to the global variables.
+        self.Weights = torch.randn(no_of_HidNodes, no_of_VisNodes)
+        # Note: There is 1 bias for each hidden node, we need to create a vecotr of no_ofhidden nodes elements
+        # Here we will make a vector with 2 args which are for the batch sizes and the bias itself, we add a fake vector cause pytorch needs 2 vectors for input
+        ## Creating bias for hideen nodes
+        self.a_hid = torch.randn(1, no_of_HidNodes)
+        # Creating bias for visible nodes, 2D tensor
+        self.b_vis = torch.randn(1, no_of_VisNodes)
+    
+    # This function will return sample of hidden nodes, it will sample the activations of the hidden nodes
+    # if there are ex 100 hidden nodes, it will activate them according to a particular probability with an activation funtion.    
+    # Since we declared the variables as self we will be able to access the above variables.
+    # These are functions ex: sample_h is a sampling function for the hidden nodes.
+    def sample_h(self, x):
+    # In this x will correspond to the visible nuerons in the probability P(h) given V.
+    # First we compute the probabilty of P(h) give V.
+    # if the batch value contains 1 input vector of bias, those are called a mini batch
+        wx = torch.mm(x, self.Weights.t())
+        activation = wx + self.a_hid.expand_as(wx)
+    # The activation function that will activate the hidden nodem, reppresents the probability the hidden nodes will be activated.
+    ####### case Scenario #####
+#    if there is a user who likes drama movies, if there is ahidden node that detected a feature corresponding to drama movies:
+#    for this user who has high rating for drama movies, the probability specific to the node of drama will be very high.
+#    as P(h) coreesponds to the drama feature and the V represents the user who likes drama.    
+        
+    ###### Case SCenario End#####
+        P_Hid_given_Vis = torch.sigmoid(activation)
+        # Function for gibbs sampling
+        # Here we are make a burnoulli birnary RBM where in it only return if the user likes or dislikes the movie.
+        return P_Hid_given_Vis, torch.bernoulli(P_Hid_given_Vis)
+        
+    # Measure the probabilities of the visible nodes.
+    # It will be similar to all the notes made above but in place of hidden you are referring to the visible nodes.
+    # They interchange places with each other.
+    
+    # This is a sample funtion that return the values of the visible nodes given the values of the hidden nodes.
+    def sample_v(self, y):
+        # Important: Here we dont take a transpose as we are computing P(v) given h, previously it was the other way round
+        wy = torch.mm(y, self.Weights)
+        activation = wy + self.b_vis.expand_as(wy)
+        P_Vis_given_Hid = torch.sigmoid(activation)
+        # Here we know if the value is 70 or above will be a lo=ike but any less than 25 is a dislike
+        return P_Vis_given_Hid, torch.bernoulli(P_Vis_given_Hid)
+    
+    # Function for contrastive divergence which will approximate likelihood gradience or loglikelihood, we use gradient approximations.
+    # In This we are trying to get to the lowest energy point.
+    # Arguments explained
+    
+    # v0:  input vector containing ratings of all the movies by 1 user
+    # vk: Visible nodes obtained after k roundtrips from the Hidden to visible and vise versa
+    # ph0: Vector of probabilities that at the first iterations the hidden nodes values = 1 gibne the values of v0.
+    # phk: probabilities of k sampling given the values of visible nodes vk
+    
+    def train(self, v0,  vk, ph0, phk):
+        # Algorithm is followed as in the paper.
+        self.Weights += torch.mm(v0.t(), ph0) - torch.mm(vk.t(), phk)
+        self.b_vis += torch.sum((v0 - vk), 0)
+        self.a_hid += torch.sum((ph0 - phk), 0)
+    # This will be used to perform contrastive divergence using gibbs sampling
+    
+# here we have to create an object to access the class,
+# The value of no_of_VisNodes can be taken a value of nb_movies, but the right way to assign this would be
+# To use the value of the torch tensor
+
+no_of_VisNodes = len(training_set[0])
+# Here the no of hidden nodes correponds to the no of features we want to detect
+# That means no of stars, if oscar given and stuff will be used to determine the hidden node layers. 
+no_of_HidNodes = 100 # Hard to say what us the optimum no of features. this parameter is totally tuneable
+# You can also used to tune the value of batch size.
+batch_size = 10 # for faster training you can tune the batch sizes for better optimization.
+rbm = RBM(no_of_VisNodes, no_of_HidNodes);
+
+# Training of the RBM
+nb_epochs = 30
+for epoch in range(1, nb_epochs + 1):
+    # Most common loss function that is generally used: RMAC = Root of the mean of the squared differences between the predicted and real ratings.
+    # You can also use the simple absolute difference between the two nodes predicted and real ratings
+    train_loss = 0
+    s = 0.
+    # The above functions are designed to work for ony one user,
+    # So another for loop is made to get the values of the users into it, all the users in a batch.
+    # here in the loop we dont want it to update after each user but we want it to do it in a batch
+    for id_user in range(0, nb_users - batch_size, batch_size):
+        # Will be output of the Gibbs sampling, input batch of the ratings of users 
+        vk = training_set[id_user:id_user+batch_size]
+        # Target is one thing we dont want to tamper. Here we use it to compare with the predicted with the orginal ratings
+        v0 = training_set[id_user:id_user+batch_size]
+        # Include the initial probabilities, ph is 1 given the real rating by the users.
+        # We use sample_h as we 
+        # By using a ,_ python understands that we only nned the first return argument
+        # We use sample_h as we give in the values of V to p(h)
+        ph0, _ = rbm.sample_h(v0)
+        # Here we use another for loop for the k steps of contrastive divergence.
+        for k in range(10):
+            # Stopped untill this point. only run unitll the Class name RBM()
+
