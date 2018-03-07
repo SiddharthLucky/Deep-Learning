@@ -205,5 +205,27 @@ for epoch in range(1, nb_epochs + 1):
         ph0, _ = rbm.sample_h(v0)
         # Here we use another for loop for the k steps of contrastive divergence.
         for k in range(10):
-            # Stopped untill this point. only run unitll the Class name RBM()
+            # Gibbs sampling is making several gibbs chains which are several round trips from the hidden to visible nodes and vice versa.
+            #
+            # We start with an input batch of operations - all the input ratings that are in v0 - batch of 100 users.
+            # We get all the ratings of all the users from all the movies, then in the first ste of gibbs sampling
+            # Step 1 - from the input vector we are going to sample the hidden nodes using a bernoulli sampling along with p_Hid_given_Vis 
+            #
+            # We are using sample_h function to get the first sampled hidden nodes, we use the same inverse trick.
+            # Here hk is the hidden nodes obtained at the Kth step of contrastive divergence.
+            # We use the variable Vk instead of V0 as we dont want to tamper with the original set.
+            _,hk = rbm.sample_h(vk)
+            # Vk is the sampled visible nodes after the first step of gibbs sampling
+            # the below statement will generate the first sample of hidden nodes.
+            _,vk = rbm.sample_v(hk)
+            # Here what is happening is we get a first update of visible nodes, when k = 1
+            # it enters the loop Since vk has the no of visible nodes and is passed to sample_h
+            # Similarly the obtained output is then passed as an input to another function 
+            # now after this we can approximate the gradients
+            # We can use the value vk to approximate the gradient and update the bias.
+            # WE ALSO HAVE TO MAKE SURE THAT WE DONT LEARN WHERE THERE IS NO RATING SPECIFIED. IE RATINGS = -1.
+            vk[v0 < 0] = v0[v0 < 0]
+            # if you look at the above step closely you can see that the machine is not learning when the ratings values are -1.
+        phk,_ = rbm.sample_h(vk)
+        rbm.train(v0, vk, ph0, phk)
 
