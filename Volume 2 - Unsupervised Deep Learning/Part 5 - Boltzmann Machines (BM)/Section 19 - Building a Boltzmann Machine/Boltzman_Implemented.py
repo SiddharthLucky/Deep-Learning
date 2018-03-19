@@ -190,6 +190,7 @@ for epoch in range(1, nb_epochs + 1):
     # You can also use the simple absolute difference between the two nodes predicted and real ratings
     train_loss = 0
     s = 0.
+    # this is used as a counter increantal float value
     # The above functions are designed to work for ony one user,
     # So another for loop is made to get the values of the users into it, all the users in a batch.
     # here in the loop we dont want it to update after each user but we want it to do it in a batch
@@ -228,4 +229,27 @@ for epoch in range(1, nb_epochs + 1):
             # if you look at the above step closely you can see that the machine is not learning when the ratings values are -1.
         phk,_ = rbm.sample_h(vk)
         rbm.train(v0, vk, ph0, phk)
+        # Here when the weights get close to the optimal weights, the train loss is updated to see the error rate
+        train_loss += torch.mean(torch.abs(v0[v0 >= 0] - vk[v0 >= 0]))
+        s += 1.
+    print('epoch: ' + str(epoch) + 'loss: ' + str(train_loss/s))
+    
+# Testing the RBM
+test_loss = 0
+s_test = 0.
+for id_user in range(nb_users):
+    v = training_set[id_user:id_user + 1]
+    vt = test_set[id_user:id_user + 1] # vt is the target
+    # Accoring to Markov Chain Monty Carlo sampling we are trained to stay in th eline blind folded and follow line in 10 steps
+    # So it is possible to use the same training for staying on line for 1 step.
+    if len(vt[vt >= 0]):
+        _,h = rbm.sample_h(v)
+        _,v = rbm.sample_v(h)
+        test_loss += torch.mean(torch.abs(vt[vt >= 0] - v[vt >= 0])) # Here using vt we get the indexes of the cells that have the existant ratings
+        s_test += 1.
+print('test loss: ' + str(test_loss/s_test))
+
+
+# Eva
+    
 
