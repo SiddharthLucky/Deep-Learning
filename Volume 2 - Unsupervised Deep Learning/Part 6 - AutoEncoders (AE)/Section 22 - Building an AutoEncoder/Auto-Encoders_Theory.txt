@@ -1,0 +1,89 @@
+Tackling auto encoders:
+
+1. What is an auto encoders
+2. Training of auto encoders
+3. Situation where we have over complete hideen layers in an AE
+4. Regularization techniques to solve problems.
+    A. Sparse Auto Encoders
+    B. Denoising Auto Encoders
+    C. Contractive Auto Encoders 
+
+5. What are stacked Auto encoders and Deep Auto Encoders.
+
+Auto encoders are referred to as not a pure type of unsupervised deep learning algorithm, they are self supervised.
+
+What are these used for:
+a. Feature Detection.
+b. Build Powerful recommender system
+c. Probably best eencoder systems
+
+How these work:
+
+    Here for now the activation function is forgotten, the visible nodes data is encoded into the hidden nodes.
+    These are then decoded to get back the original data with an error rate. In an AE, there is also a softmax fucntion
+    
+    Softmax function: Turns the higest values into 1 and rest of all the values into 0 
+    
+    A note on Biases: 
+        There might be biases added as a part of visible and output nodes which carry a value of +1
+        in you activation function you add your biases accordingly. The correct way to represent the bias is
+        The bias is added in the hidden node as it affests the layer thats in front.
+        
+    Training an Auto Encoder: 
+        The inputs which are the ratings of the movies of the users.
+        Step 1: The input array uses the no of Users as the rows and the movies info as Columns.
+        Step 2: The first user goes into the netowrk with all his corresponding ratings for all the movies.
+        Step 3: The input vector is encoded into the vector z of lower dimensions by a mapping function f
+                        where in z = (f(input) + bias) if the bias is included.
+                        
+        Step 4: z is then decoded into the output vector y of same dimensions as x, aiming to replace the input vector x.
+        Step 5: The reconstruction error d(x, y) = ||x-y|| is computed. the goal is to minimize it. 
+        Step 6: The error is then back propogated to update the weights.
+        Step 7: Repeat steps 1 to 6 and update the weights after each observations (Reinforcement learning) 1 Way
+                or you can also use batch Learning which is faster compared to the above one
+                Repeat steps 1 to 6 and update the weights after sets in batches (Batch learning).
+        Step 8: Then the while training set is passed through an ANN that makes an epoch, continue same for other epochs.
+        
+The below are advanced topics of very powerful auto encoders.
+2. Dealing with Overcomplete hidden layers.
+Regularization techniques to regulate no of nodes used.
+    Denoising an auto Encoder
+        It is one of the regularization technique which is here to combat the problem where we have more no of nodes in the hidden than in the visible layer
+        The way this is done:
+            A psuedo layer is created same as the no of visible nodes. Only some values are copied into the layer making the other values into 0
+            This is done in a random way. Then once the encoder runs the obtained values are then compared with the visible layer and not the psuedo layer
+            this prevents the nodes from just copying the data from visible node to hidden node.
+            Since all of this is happening randomly, this type of auto encoder is called as STOCASTIC AUTO ENCODER.
+            
+            The above is one of the important aspects that you may here a lot in AE.
+
+OverComplete Hidden layers:
+    Underlying concept in a lot of AE's, The main goal of an AE is to get the outputs, if we were to give the hidden nodes
+    equal or more no of nodes than the visible nodes the the hidden nodes can cheat saying that the coreesponding output layer is similar to the corresponsding input nodes
+    and the information will just fly through rather than teh information being encoded.
+    
+    You will hear sparse auto encoder most often. Most of the time there is no explination why it is a sparse auto encoder.
+    
+    A. Sparse Auto Encoder: 
+            It is an AE that has more nodes in the hidden layer than the visble layer and the output layer,
+            but a regularization algorithm is implemented to prevent overfitting.
+            The way it regulates this is by imposing a penalty in the loss function, where in an AE at any time can only use a certain no of nodes.
+            Not at any given pass all the layers will not be activated. 
+            In this it is still compressing information but every time it is using different nodes to do that.
+            Look for k Sparse auto encoder which uses k as a parameter. K - Sparse Auto Encoder
+            
+    B. Contractive Auto Encoder:
+            This is one of the regularization technique, wherein it leverages the information from the visible layer to the output layer.
+            This is also used to employ penalty on the output.
+            They say that Contrastive Auto encoders are sometimes better than Denoising as they may give better results than denoising in some datasets.
+            it is a very complex with a lot of math behind it.
+            
+    C. Stacked Auto Encoders:
+                    
+            
+            
+      
+          
+    
+    
+                      

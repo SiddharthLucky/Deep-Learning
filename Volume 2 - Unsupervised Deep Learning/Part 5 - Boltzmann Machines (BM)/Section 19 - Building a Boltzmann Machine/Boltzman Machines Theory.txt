@@ -57,7 +57,15 @@ if there is an object on the curve then all the objects try to get to thier lowe
 
 The RBM always tries to get to the values which represent the lowest energy state, boltzmann are known to get better features compared to rest                                                                                                                                                                                                                                                                                       
 
+There are mainly 2 ways of evaluating an RBM, they are using
+1. RMSE - Root Mean Square Error
+2. Avarage Distance
 
+1. RMSE - 
+
+    it is calculated as the root of the mean of the squared differences between the predictions and the targets.
+    While implementing the RMSE, the steps are included in the code
+    
 
 
 

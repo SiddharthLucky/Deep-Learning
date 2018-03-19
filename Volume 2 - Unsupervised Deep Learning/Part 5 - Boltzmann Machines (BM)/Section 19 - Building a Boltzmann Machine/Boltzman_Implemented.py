@@ -230,7 +230,9 @@ for epoch in range(1, nb_epochs + 1):
         phk,_ = rbm.sample_h(vk)
         rbm.train(v0, vk, ph0, phk)
         # Here when the weights get close to the optimal weights, the train loss is updated to see the error rate
-        train_loss += torch.mean(torch.abs(v0[v0 >= 0] - vk[v0 >= 0]))
+        train_loss += torch.mean(torch.abs(v0[v0 >= 0] - vk[v0 >= 0])) # using Avarage Distance method
+        # Implementing RMSE below:
+        train_loss += np.sqrt(torch.mean((v0[v0 >= 0] - vk[v0 >= 0])**2))
         s += 1.
     print('epoch: ' + str(epoch) + 'loss: ' + str(train_loss/s))
     
@@ -245,7 +247,10 @@ for id_user in range(nb_users):
     if len(vt[vt >= 0]):
         _,h = rbm.sample_h(v)
         _,v = rbm.sample_v(h)
-        test_loss += torch.mean(torch.abs(vt[vt >= 0] - v[vt >= 0])) # Here using vt we get the indexes of the cells that have the existant ratings
+        test_loss += torch.mean(torch.abs(vt[vt >= 0] - v[vt >= 0])) # using Avarage Distance method
+        # Here using vt we get the indexes of the cells that have the existant ratings
+        # Implementing the test_loss
+        test_loss += np.sqrt(torch.mean((vt[vt >= 0] - v[vt >= 0])**2))
         s_test += 1.
 print('test loss: ' + str(test_loss/s_test))
 
