@@ -97,7 +97,7 @@ fraud customer applied and got denied but there are customers who got away with 
 # Catch the cheaters
 # Get the explicit list of all the customers who might have committed a fraud.
 # Win_some takes an argument on which the SOM was generated
-mappings = som. win_map(X)
+mappings = som.win_map(X)
 
 # For determining the frauds, we use the mapping dictonary and enter the coordinated from the map generated.
 # You can also use the concatenate function using np.concatenated

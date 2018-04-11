@@ -78,7 +78,7 @@ batch_size = 100
 rbm = RBM(nv, nh)
 
 # Training the RBM
-nb_epoch = 10
+nb_epoch = 100
 for epoch in range(1, nb_epoch + 1):
     train_loss = 0
     s = 0.
